@@ -263,9 +263,7 @@ public class VertexCover {
         /* shuffle edges (probabilistic algorithm) */
         Collections.shuffle(edgesCopy);
 
-        /* remove all edges and check if the nodes should be inserted to the
-        cover
-        */
+        /* remove all edges and check if the nodes should be inserted to the cover */
         while(!edgesCopy.isEmpty()){
             Edge e = edgesCopy.remove(0);
             int u = e.getStartVertex();
@@ -383,7 +381,93 @@ public class VertexCover {
 
     void heuristicToBeNamed() {
 
-        return;
+//        System.out.println("\nSTART\n");
+
+        /* variable to hold the cover */
+        ArrayList<Integer> cover = new ArrayList();
+
+        /* initialize all vertices as not visited */
+        boolean visited[] = new boolean[this.g.getV()];
+        for (int i = 0; i < this.g.getV(); i++)
+            visited[i] = false;
+
+        /* create a copy of the edges list */
+        ArrayList<Edge> edgesCopy = new ArrayList<>(this.g.getEdges());
+
+        /* IMPLEMENTATION */
+
+//        System.out.println("edgesCopy");
+//        for (Edge ee : edgesCopy)
+//            System.out.println("Start: " + ee.getStartVertex() + " End: " + ee.getEndVertex());
+
+        while (!edgesCopy.isEmpty()) {
+            /* find the minimum degree vertex */
+            int minDegreeVertex = findMinDegreeVertex(edgesCopy);
+            visited[minDegreeVertex] = true;
+            cover.add(minDegreeVertex);
+
+//            System.out.println("Min degree vertex chosen: " + minDegreeVertex);
+//            System.out.print("Cover now: ");
+//            for(int c : cover){
+//                System.out.print(c);
+//            }
+
+            /* add all neighbors of min degree vertex to the solution */
+            for (Edge edg : edgesCopy) {
+                if (edg.getStartVertex() == minDegreeVertex) {
+                    visited[edg.getEndVertex()] = true;
+                    cover.add(edg.getEndVertex());
+                }
+                else if (edg.getEndVertex() == minDegreeVertex) {
+                    visited[edg.getStartVertex()] = true;
+                    cover.add(edg.getStartVertex());
+                }
+            }
+
+//            System.out.println();
+//            System.out.print("Cover now: ");
+//            for(int c : cover){
+//                System.out.print(c + " ");
+//            }
+
+            /* delete all edges which are adjacent to vertices in cover */
+            for (int v : cover) {
+                edgesCopy.removeIf(edg -> (edg.getStartVertex() == v) || (edg.getEndVertex() == v));
+            }
+
+//            System.out.println("\nedgesCopy");
+//            for (Edge ee : edgesCopy)
+//                System.out.println("Start: " + ee.getStartVertex() + " End: " + ee.getEndVertex());
+        }
+
+        /* mark the visited edges */
+        for(int i = 0; i < this.g.getEdges().size(); i++) {
+            Edge e = this.g.getEdges().get(i);
+            int u = e.getStartVertex();
+            int v = e.getEndVertex();
+            if(visited[u] || visited[v]) {
+                visited[u] = true;
+                visited[v] = true;
+            }
+        }
+
+        /* print results */
+        for (int j = 0; j < this.g.getV(); j++)
+            if(visited[j] == false) {
+                System.out.println("HEURISTIC\nNo cover found!");
+                return;
+            }
+
+        System.out.print("HEURISTIC\nCover: ");
+        Collections.sort(cover);
+        Iterator<Integer> i;
+        i = cover.iterator();
+        while (i.hasNext()) {
+            System.out.print(i.next() + " ");
+        }
+        System.out.println();
+
+//        System.out.println("\nEND\n");
 
     }
 
@@ -482,5 +566,45 @@ public class VertexCover {
 
     }
 
+
+    /**
+     * Function that finds the minimum degree vertex
+     */
+    public int findMinDegreeVertex(ArrayList<Edge> edgesArr){
+
+        randomGenerator = new Random();
+
+        /* array storing degree for each vertex */
+        int verticesDeg[] = new int[this.g.getV()];
+
+        /* finding degree for each vertex */
+        for (Edge edg : edgesArr) {
+            verticesDeg[edg.getStartVertex()]++;
+            verticesDeg[edg.getEndVertex()]++;
+        }
+
+        /* stores all possible vertices in case of tie */
+        ArrayList<Integer> possibleVertices = new ArrayList<Integer>();
+
+        /* finds the maximum degree vertices */
+        int minVertexDegree = this.g.getV() + 1;
+        for(int k = 0; k < verticesDeg.length; k++){
+            if ((verticesDeg[k] < minVertexDegree) && (verticesDeg[k] > 0)){
+                minVertexDegree = verticesDeg[k];
+                possibleVertices.clear();
+                possibleVertices.add(k);
+            }
+            else if (verticesDeg[k] == minVertexDegree) {
+                possibleVertices.add(k);
+            }
+        }
+
+        /* randomly chosen vertex of the possible vertices */
+        int randIndex = randomGenerator.nextInt(possibleVertices.size());
+        int chosenVertex = possibleVertices.get(randIndex);
+
+        return chosenVertex;
+
+    }
 
 }

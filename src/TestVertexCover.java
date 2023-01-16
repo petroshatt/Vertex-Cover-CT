@@ -24,12 +24,13 @@ public class TestVertexCover {
 
         System.out.println("-----First example-----\n");
         VertexCover vc1 = new VertexCover(g1);
-        measureElapsedTime(vc1, "o");
-        measureElapsedTime(vc1, "a1");
-        measureElapsedTime(vc1, "a2");
-        measureElapsedTime(vc1, "a3");
-        measureElapsedTime(vc1, "h1");
-        measureElapsedTime(vc1, "h2");
+//        measureElapsedTime(vc1, "o");
+//        measureElapsedTime(vc1, "a1");
+//        measureElapsedTime(vc1, "a2");
+//        measureElapsedTime(vc1, "a3");
+//        measureElapsedTime(vc1, "h1");
+//        measureElapsedTime(vc1, "h2");
+        measureElapsedTime(vc1, "h3");
 
         /* Second example */
         Graph g2 = new Graph(2);
@@ -41,6 +42,7 @@ public class TestVertexCover {
         measureElapsedTime(vc2, "a3");
         measureElapsedTime(vc2, "h1");
         measureElapsedTime(vc2, "h2");
+        measureElapsedTime(vc2, "h3");
 
         /* Third example */
         Graph g3 = new Graph(4);
@@ -55,6 +57,8 @@ public class TestVertexCover {
         measureElapsedTime(vc3, "a3");
         measureElapsedTime(vc3, "h1");
         measureElapsedTime(vc3, "h2");
+        measureElapsedTime(vc3, "h3");
+
 
         /* Fourth example */
         Graph g4 = new Graph(5);
@@ -70,6 +74,7 @@ public class TestVertexCover {
         measureElapsedTime(vc4, "a3");
         measureElapsedTime(vc4, "h1");
         measureElapsedTime(vc4, "h2");
+        measureElapsedTime(vc4, "h3");
     }
 
 
@@ -89,8 +94,8 @@ public class TestVertexCover {
             v.greedyVertexCover();
         else if (alg.equals("h2"))
             v.greedyHighDegreeVertexCover();
-//        else if (alg.equals("h3"))
-//            v.approximateHighDegreeVertexCover();
+        else if (alg.equals("h3"))
+            v.heuristicToBeNamed();
 
         long finish = System.nanoTime();
         long timeElapsed = finish - start;
