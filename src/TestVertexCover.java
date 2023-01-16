@@ -1,6 +1,8 @@
 
 //package vertexcover;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Class to test the Vertex Cover algorithms
  */
@@ -10,32 +12,9 @@ public class TestVertexCover {
      * main function
      * @param args
      */
-    public static void main(String args[]){
-        /* First example */
-        Graph g1 = new Graph(15);
-        g1.addEdge(0, 1);
-        g1.addEdge(1, 2);
-        g1.addEdge(2, 3);
-        g1.addEdge(2, 4);
-        g1.addEdge(3, 4);
-        g1.addEdge(3, 5);
-        g1.addEdge(1, 6);
-        g1.addEdge(4, 5);
-        g1.addEdge(1, 7);
-        g1.addEdge(1, 8);
-        g1.addEdge(2, 8);
-        g1.addEdge(5, 9);
-        g1.addEdge(4, 10);
-        g1.addEdge(7, 10);
-        g1.addEdge(3, 11);
-        g1.addEdge(6, 11);
-        g1.addEdge(1, 12);
-        g1.addEdge(2, 13);
-        g1.addEdge(5, 14);
-        g1.addEdge(9, 14);
-        g1.addEdge(10, 11);
-        g1.addEdge(11, 12);
-        g1.addEdge(4, 13);
+    public static void main(String args[]) {
+
+        Graph g1 = createRandomGraph(5);
         System.out.println("-----First example-----\n");
         VertexCover vc1 = new VertexCover(g1);
         measureElapsedTime(vc1, "o");
@@ -59,10 +38,7 @@ public class TestVertexCover {
         measureElapsedTime(vc2, "h3");
 
         /* Third example */
-        Graph g3 = new Graph(4);
-        g3.addEdge(0, 3);
-        g3.addEdge(1, 3);
-        g3.addEdge(2, 3);
+        Graph g3 = createRandomGraph(15);
         System.out.println("\n-----Third example-----\n");
         VertexCover vc3 = new VertexCover(g3);
         measureElapsedTime(vc3, "o");
@@ -74,11 +50,7 @@ public class TestVertexCover {
         measureElapsedTime(vc3, "h3");
 
         /* Fourth example */
-        Graph g4 = new Graph(5);
-        g4.addEdge(0, 2);
-        g4.addEdge(1, 4);
-        g4.addEdge(2, 4);
-        g4.addEdge(3, 4);
+        Graph g4 = createRandomGraph(20);
         System.out.println("\n-----Fourth example-----\n");
         VertexCover vc4 = new VertexCover(g4);
         measureElapsedTime(vc4, "o");
@@ -88,6 +60,29 @@ public class TestVertexCover {
         measureElapsedTime(vc4, "h1");
         measureElapsedTime(vc4, "h2");
         measureElapsedTime(vc4, "h3");
+
+        /* Fifth example */
+        Graph g5 = createRandomGraph(50);
+        System.out.println("\n-----Fifth example-----\n");
+        VertexCover vc5 = new VertexCover(g5);
+        measureElapsedTime(vc5, "a1");
+        measureElapsedTime(vc5, "a2");
+        measureElapsedTime(vc5, "a3");
+        measureElapsedTime(vc5, "h1");
+        measureElapsedTime(vc5, "h2");
+        measureElapsedTime(vc5, "h3");
+
+        /* Sixth example */
+        Graph g6 = createRandomGraph(80);
+        System.out.println("\n-----Sixth example-----\n");
+        VertexCover vc6 = new VertexCover(g6);
+        measureElapsedTime(vc6, "a1");
+        measureElapsedTime(vc6, "a2");
+        measureElapsedTime(vc6, "a3");
+        measureElapsedTime(vc6, "h1");
+        measureElapsedTime(vc6, "h2");
+        measureElapsedTime(vc6, "h3");
+
     }
 
 
@@ -115,5 +110,31 @@ public class TestVertexCover {
         System.out.println("Time Elapsed: " + timeElapsed + " ns\n");
 
     }
+
+    public static Graph createRandomGraph (int vnum) {
+
+        Graph g = new Graph(vnum);
+
+        int maxEdgesForVertex = 5;
+
+        /* makes sure each vertex is at least once in the graph */
+        for (int edgS = 0; edgS < vnum; edgS++) {
+            int vertexEdgesNum = ThreadLocalRandom.current().nextInt(1, maxEdgesForVertex + 1);
+            boolean unlinkedVertex = true;
+            while (unlinkedVertex) {
+                for (int j = 0; j < vertexEdgesNum; j++) {
+                    int edgE = ThreadLocalRandom.current().nextInt(0, vnum);
+                    if ((edgS != edgE) && !g.edgeExists(edgS, edgE) && !g.edgeExists(edgE, edgS)) {
+                        g.addEdge(edgS, edgE);
+                        unlinkedVertex = false;
+                    }
+                }
+            }
+        }
+
+        return g;
+
+    }
+
 
 }

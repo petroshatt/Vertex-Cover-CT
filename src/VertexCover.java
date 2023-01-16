@@ -47,6 +47,7 @@ public class VertexCover {
                     comb.add(vertices.get(digit));
                 }
             }
+
             /* check if combination is a cover and the optimal one until now */
             if(isCover(comb) && comb.size() < numberOfVertices){
                 cover = comb;
@@ -66,6 +67,7 @@ public class VertexCover {
             {
                 System.out.print(i.next() + " ");
             }
+            System.out.print("\nCover Size: " + cover.size());
             System.out.println();
         }
     }
@@ -123,6 +125,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
     }
 
@@ -182,6 +185,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
     }
 
@@ -241,6 +245,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
 
     }
@@ -307,6 +312,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
     }
 
@@ -375,6 +381,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
     }
 
@@ -459,6 +466,7 @@ public class VertexCover {
         while (i.hasNext()) {
             System.out.print(i.next() + " ");
         }
+        System.out.print("\nCover Size: " + cover.size());
         System.out.println();
     }
 

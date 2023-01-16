@@ -45,4 +45,19 @@ public class Graph {
     public ArrayList<Edge> getEdges(){
         return this.edges;
     }
+
+
+    public boolean edgeExists(int u, int v) {
+        Edge e1 = new Edge(u, v);
+        for(Edge e2 : this.edges)
+            if(equalEdge(e1, e2))
+                return true;
+        return false;
+    }
+
+    public boolean equalEdge(Edge e1, Edge e2){
+        if ((e1.getStartVertex() == e2.getStartVertex()) && (e1.getEndVertex() == e2.getEndVertex()))
+            return true;
+        return false;
+    }
 }
