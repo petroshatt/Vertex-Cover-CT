@@ -12,7 +12,7 @@ public class TestVertexCover {
      */
     public static void main(String args[]){
         /* First example */
-        Graph g1 = new Graph(7);
+        Graph g1 = new Graph(15);
         g1.addEdge(0, 1);
         g1.addEdge(1, 2);
         g1.addEdge(2, 3);
@@ -21,15 +21,29 @@ public class TestVertexCover {
         g1.addEdge(3, 5);
         g1.addEdge(1, 6);
         g1.addEdge(4, 5);
-
+        g1.addEdge(1, 7);
+        g1.addEdge(1, 8);
+        g1.addEdge(2, 8);
+        g1.addEdge(5, 9);
+        g1.addEdge(4, 10);
+        g1.addEdge(7, 10);
+        g1.addEdge(3, 11);
+        g1.addEdge(6, 11);
+        g1.addEdge(1, 12);
+        g1.addEdge(2, 13);
+        g1.addEdge(5, 14);
+        g1.addEdge(9, 14);
+        g1.addEdge(10, 11);
+        g1.addEdge(11, 12);
+        g1.addEdge(4, 13);
         System.out.println("-----First example-----\n");
         VertexCover vc1 = new VertexCover(g1);
-//        measureElapsedTime(vc1, "o");
-//        measureElapsedTime(vc1, "a1");
-//        measureElapsedTime(vc1, "a2");
-//        measureElapsedTime(vc1, "a3");
-//        measureElapsedTime(vc1, "h1");
-//        measureElapsedTime(vc1, "h2");
+        measureElapsedTime(vc1, "o");
+        measureElapsedTime(vc1, "a1");
+        measureElapsedTime(vc1, "a2");
+        measureElapsedTime(vc1, "a3");
+        measureElapsedTime(vc1, "h1");
+        measureElapsedTime(vc1, "h2");
         measureElapsedTime(vc1, "h3");
 
         /* Second example */
@@ -58,7 +72,6 @@ public class TestVertexCover {
         measureElapsedTime(vc3, "h1");
         measureElapsedTime(vc3, "h2");
         measureElapsedTime(vc3, "h3");
-
 
         /* Fourth example */
         Graph g4 = new Graph(5);
@@ -89,13 +102,13 @@ public class TestVertexCover {
         else if (alg.equals("a2"))
             v.approximateRandomVertexCover();
         else if (alg.equals("a3"))
-            v.approximateHighDegreeVertexCover();
+            v.approximateMaxDegreeVertexCover();
         else if (alg.equals("h1"))
             v.greedyVertexCover();
         else if (alg.equals("h2"))
-            v.greedyHighDegreeVertexCover();
+            v.greedyMaxDegreeVertexCover();
         else if (alg.equals("h3"))
-            v.heuristicToBeNamed();
+            v.heuristicMinDegreeVertex();
 
         long finish = System.nanoTime();
         long timeElapsed = finish - start;

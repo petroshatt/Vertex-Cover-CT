@@ -191,7 +191,7 @@ public class VertexCover {
      * Edge removed each loop connects the highest degree vertex
      * In case of ties, randomly chosen between the highest
      */
-    void approximateHighDegreeVertexCover() {
+    void approximateMaxDegreeVertexCover() {
         /* variable to hold the cover */
         ArrayList<Integer> cover = new ArrayList();
 
@@ -205,7 +205,7 @@ public class VertexCover {
 
         /* remove all edges and check if the nodes should be inserted to the cover */
         while (!edgesCopy.isEmpty()) {
-            int chosenEdge = findEdgeMaxDegreeEdge(edgesCopy);
+            int chosenEdge = findEdgeMaxDegreeVertex(edgesCopy);
             Edge e = edgesCopy.remove(chosenEdge);
             int u = e.getStartVertex();
             int v = e.getEndVertex();
@@ -316,7 +316,7 @@ public class VertexCover {
      * Edge removed each loop connects the highest degree vertex
      * In case of ties, randomly chosen between the highest
      */
-    void greedyHighDegreeVertexCover() {
+    void greedyMaxDegreeVertexCover() {
         /* variable to hold the cover */
         ArrayList<Integer> cover = new ArrayList();
 
@@ -332,7 +332,7 @@ public class VertexCover {
 
         /* remove all edges and check if the nodes should be inserted to the cover */
         while(!edgesCopy.isEmpty()){
-            int chosenEdge = findEdgeMaxDegreeEdge(edgesCopy);
+            int chosenEdge = findEdgeMaxDegreeVertex(edgesCopy);
             Edge e = edgesCopy.remove(chosenEdge);
             int u = e.getStartVertex();
             int v = e.getEndVertex();
@@ -379,7 +379,10 @@ public class VertexCover {
     }
 
 
-    void heuristicToBeNamed() {
+    /**
+     * Function that implements a heuristic algorithm for the vertex cover
+     */
+    void heuristicMinDegreeVertex() {
 
         /* variable to hold the cover */
         ArrayList<Integer> cover = new ArrayList();
@@ -391,6 +394,9 @@ public class VertexCover {
 
         /* create a copy of the edges list */
         ArrayList<Edge> edgesCopy = new ArrayList<>(this.g.getEdges());
+
+        /* create a copy of the edges list */
+        ArrayList<Edge> initEdges = new ArrayList<>(this.g.getEdges());
 
         while (!edgesCopy.isEmpty()) {
             /* find the minimum degree vertex */
@@ -415,6 +421,18 @@ public class VertexCover {
                 edgesCopy.removeIf(edg -> (edg.getStartVertex() == v) || (edg.getEndVertex() == v));
             }
         }
+
+        /* improves solution by removing vertex from cover if cover has all its neighbors */
+        /* to ekana etsi giati den mporousa na kanw remove xwris iterator */
+        for (Iterator<Integer> iterator = cover.iterator(); iterator.hasNext();) {
+            Integer coverElement = iterator.next();
+            ArrayList<Integer> neigh = findNeighbors(coverElement, initEdges);
+            if (cover.containsAll(neigh))
+                iterator.remove();
+        }
+
+
+
 
         /* mark the visited edges */
         for (int i = 0; i < this.g.getEdges().size(); i++) {
@@ -482,7 +500,7 @@ public class VertexCover {
      * Function that finds the edge of the highest degree vertex
      * In case of ties, randomly chosen between the highest
      */
-    public int findEdgeMaxDegreeEdge(ArrayList<Edge> edgesArr){
+    public int findEdgeMaxDegreeVertex(ArrayList<Edge> edgesArr){
 
         randomGenerator = new Random();
 
@@ -562,6 +580,7 @@ public class VertexCover {
         /* finds the maximum degree vertices */
         int minVertexDegree = this.g.getV() + 1;
         for(int k = 0; k < verticesDeg.length; k++){
+            /* second condition assumes that there are no unlinked vertices */
             if ((verticesDeg[k] < minVertexDegree) && (verticesDeg[k] > 0)){
                 minVertexDegree = verticesDeg[k];
                 possibleVertices.clear();
@@ -578,6 +597,22 @@ public class VertexCover {
 
         return chosenVertex;
 
+    }
+
+
+    /**
+     * Function that returns arraylist of neighbir
+     */
+    public ArrayList<Integer> findNeighbors(int v, ArrayList<Edge> edges) {
+        ArrayList<Integer> neighbors = new ArrayList<Integer>();
+
+        for (Edge e : edges) {
+            if (v == e.getStartVertex())
+                neighbors.add(e.getEndVertex());
+            else if (v == e.getEndVertex())
+                neighbors.add(e.getStartVertex());
+        }
+        return neighbors;
     }
 
 }
