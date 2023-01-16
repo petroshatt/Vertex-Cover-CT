@@ -381,8 +381,6 @@ public class VertexCover {
 
     void heuristicToBeNamed() {
 
-//        System.out.println("\nSTART\n");
-
         /* variable to hold the cover */
         ArrayList<Integer> cover = new ArrayList();
 
@@ -394,23 +392,11 @@ public class VertexCover {
         /* create a copy of the edges list */
         ArrayList<Edge> edgesCopy = new ArrayList<>(this.g.getEdges());
 
-        /* IMPLEMENTATION */
-
-//        System.out.println("edgesCopy");
-//        for (Edge ee : edgesCopy)
-//            System.out.println("Start: " + ee.getStartVertex() + " End: " + ee.getEndVertex());
-
         while (!edgesCopy.isEmpty()) {
             /* find the minimum degree vertex */
             int minDegreeVertex = findMinDegreeVertex(edgesCopy);
             visited[minDegreeVertex] = true;
             cover.add(minDegreeVertex);
-
-//            System.out.println("Min degree vertex chosen: " + minDegreeVertex);
-//            System.out.print("Cover now: ");
-//            for(int c : cover){
-//                System.out.print(c);
-//            }
 
             /* add all neighbors of min degree vertex to the solution */
             for (Edge edg : edgesCopy) {
@@ -424,24 +410,14 @@ public class VertexCover {
                 }
             }
 
-//            System.out.println();
-//            System.out.print("Cover now: ");
-//            for(int c : cover){
-//                System.out.print(c + " ");
-//            }
-
             /* delete all edges which are adjacent to vertices in cover */
             for (int v : cover) {
                 edgesCopy.removeIf(edg -> (edg.getStartVertex() == v) || (edg.getEndVertex() == v));
             }
-
-//            System.out.println("\nedgesCopy");
-//            for (Edge ee : edgesCopy)
-//                System.out.println("Start: " + ee.getStartVertex() + " End: " + ee.getEndVertex());
         }
 
         /* mark the visited edges */
-        for(int i = 0; i < this.g.getEdges().size(); i++) {
+        for (int i = 0; i < this.g.getEdges().size(); i++) {
             Edge e = this.g.getEdges().get(i);
             int u = e.getStartVertex();
             int v = e.getEndVertex();
@@ -466,9 +442,6 @@ public class VertexCover {
             System.out.print(i.next() + " ");
         }
         System.out.println();
-
-//        System.out.println("\nEND\n");
-
     }
 
 
