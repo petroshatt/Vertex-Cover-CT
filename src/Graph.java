@@ -5,7 +5,6 @@ import java.util.*;
 
 /**
  * Class that represents a graph
- * @author ploskasn
  */
 public class Graph {
 

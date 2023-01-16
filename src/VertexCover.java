@@ -5,7 +5,6 @@ import java.util.*;
 
 /**
  * Class that includes algorithms for the solution of the Vertex Cover problem
- * @author ploskasn
  */
 public class VertexCover {
 
@@ -14,6 +13,7 @@ public class VertexCover {
 
     private Random randomGenerator;
 
+
     /**
      * Constructor
      * @param g graph
@@ -21,6 +21,7 @@ public class VertexCover {
     public VertexCover(Graph g){
         this.g = g;
     }
+
 
     /**
      * Function that finds the optimal vertex cover
@@ -69,6 +70,7 @@ public class VertexCover {
         }
     }
 
+
     /**
      * Function that finds a 2-approximation vertex cover
      */
@@ -84,9 +86,7 @@ public class VertexCover {
         /* create a copy of the edges list */
         ArrayList<Edge> edgesCopy = new ArrayList<>(this.g.getEdges());
 
-        /* remove all edges and check if the nodes should be inserted to the
-        cover
-        */
+        /* remove all edges and check if the nodes should be inserted to the cover */
         while(!edgesCopy.isEmpty()){
             Edge e = edgesCopy.remove(0);
             int u = e.getStartVertex();
@@ -126,9 +126,10 @@ public class VertexCover {
         System.out.println();
     }
 
+
     /**
      * Function that finds a 2-approximation vertex cover
-     * (random vertex for each loop)
+     * Random edge for each loop
      */
     void approximateRandomVertexCover() {
         /* variable to hold the cover */
@@ -184,11 +185,12 @@ public class VertexCover {
         System.out.println();
     }
 
-    /**
-     * Function that checks if a set of vertices is a cover
-     * @return true if it is a cover; otherwise false
-     */
 
+    /**
+     * Function that finds a 2-approximation vertex cover
+     * Edge removed each loop connects the highest degree vertex
+     * In case of ties, randomly chosen between the highest
+     */
     void approximateHighDegreeVertexCover() {
         /* variable to hold the cover */
         ArrayList<Integer> cover = new ArrayList();
@@ -203,7 +205,7 @@ public class VertexCover {
 
         /* remove all edges and check if the nodes should be inserted to the cover */
         while (!edgesCopy.isEmpty()) {
-            int chosenEdge = findEdgeMaxDegreeVertex(edgesCopy);
+            int chosenEdge = findEdgeMaxDegreeEdge(edgesCopy);
             Edge e = edgesCopy.remove(chosenEdge);
             int u = e.getStartVertex();
             int v = e.getEndVertex();
@@ -242,6 +244,7 @@ public class VertexCover {
         System.out.println();
 
     }
+
 
     /**
      * Function that implements a greedy algorithm for the vertex cover
@@ -295,11 +298,11 @@ public class VertexCover {
         /* print results */
         for (int j = 0; j < this.g.getV(); j++)
             if(visited[j] == false) {
-                System.out.println("HEURISTIC\nNo cover found!");
+                System.out.println("GREEDY\nNo cover found!");
                 return;
             }
 
-        System.out.print("HEURISTIC\nCover: ");
+        System.out.print("GREEDY\nCover: ");
         Collections.sort(cover);
         Iterator<Integer> i;
         i = cover.iterator();
@@ -309,8 +312,11 @@ public class VertexCover {
         System.out.println();
     }
 
+
     /**
      * Function that implements a greedy algorithm for the vertex cover
+     * Edge removed each loop connects the highest degree vertex
+     * In case of ties, randomly chosen between the highest
      */
     void greedyHighDegreeVertexCover() {
         /* variable to hold the cover */
@@ -326,11 +332,10 @@ public class VertexCover {
         /* shuffle edges (probabilistic algorithm) */
         Collections.shuffle(edgesCopy);
 
-        /* remove all edges and check if the nodes should be inserted to the
-        cover
-        */
+        /* remove all edges and check if the nodes should be inserted to the cover */
         while(!edgesCopy.isEmpty()){
-            Edge e = edgesCopy.remove(0);
+            int chosenEdge = findEdgeMaxDegreeEdge(edgesCopy);
+            Edge e = edgesCopy.remove(chosenEdge);
             int u = e.getStartVertex();
             int v = e.getEndVertex();
             if(!visited[u] && !visited[v]) {
@@ -361,11 +366,11 @@ public class VertexCover {
         /* print results */
         for (int j = 0; j < this.g.getV(); j++)
             if(visited[j] == false) {
-                System.out.println("HEURISTIC\nNo cover found!");
+                System.out.println("GREEDY - HIGHEST DEGREE VERTEX\nNo cover found!");
                 return;
             }
 
-        System.out.print("HEURISTIC\nCover: ");
+        System.out.print("GREEDY - HIGHEST DEGREE VERTEX\nCover: ");
         Collections.sort(cover);
         Iterator<Integer> i;
         i = cover.iterator();
@@ -375,6 +380,17 @@ public class VertexCover {
         System.out.println();
     }
 
+
+    void heuristicToBeNamed() {
+
+        return;
+
+    }
+
+
+    /**
+     * Function that checks if a set of vertices is a cover
+     */
     public boolean isCover(ArrayList<Integer> comb){
         /* initialize all vertices as not visited */
         boolean visited[] = new boolean[this.g.getV()];
@@ -404,8 +420,12 @@ public class VertexCover {
         return true;
     }
 
-    /* finds the vertex of the highest deg - ties random*/
-    public int findEdgeMaxDegreeVertex(ArrayList<Edge> edgesArr){
+
+    /**
+     * Function that finds the edge of the highest degree vertex
+     * In case of ties, randomly chosen between the highest
+     */
+    public int findEdgeMaxDegreeEdge(ArrayList<Edge> edgesArr){
 
         randomGenerator = new Random();
 
@@ -461,5 +481,6 @@ public class VertexCover {
         return chosenIndex;
 
     }
+
 
 }

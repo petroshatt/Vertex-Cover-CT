@@ -3,7 +3,6 @@
 
 /**
  * Class that represents an edge in a graph
- * @author ploskasn
  */
 public class Edge {
 

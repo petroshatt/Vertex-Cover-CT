@@ -3,7 +3,6 @@
 
 /**
  * Class to test the Vertex Cover algorithms
- * @author ploskasn
  */
 public class TestVertexCover {
 
