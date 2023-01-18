@@ -1,5 +1,5 @@
 # Vertex-Cover-CT
-## Project 3 for Complexity Theory course.
+## Project 3 for Complexity Theory course
 
 Implemented seven algorithms in Java, solving the vertex cover problem on unweighted graphs.
 Created a method to generate random graphs.
